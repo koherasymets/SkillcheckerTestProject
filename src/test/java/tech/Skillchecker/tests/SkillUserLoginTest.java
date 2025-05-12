@@ -4,6 +4,7 @@ import tech.Skillchecker.pages.DashboardPage;
 import tech.Skillchecker.pages.SkillMainPage;
 import tech.Skillchecker.utils.ConfigurationReader;
 import io.qameta.allure.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -21,9 +22,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DisplayName("Проверка успешного входа в систему")
 public class SkillUserLoginTest extends TestBase {
 
-    @Test
-    public void LoginTest() {
+    @BeforeEach
+    public void openLoginPage() {
         context.driver.get(ConfigurationReader.get("url"));
+    }
+
+    @Test
+    @Description("Проверка успешного входа в систему с валидными данными")
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Успешный логин — пользователь попадает в Панель управления")
+    public void LoginTest() {
         SkillMainPage skillMainPage = new SkillMainPage(context);
         DashboardPage dashboardPage = skillMainPage.login();
 
@@ -39,19 +47,15 @@ public class SkillUserLoginTest extends TestBase {
     @Severity(SeverityLevel.NORMAL)
     @DisplayName("Неверный логин/пароль — система выдаёт уведомление")
     public void loginWithWrongPassword() {
-        context.driver.get(ConfigurationReader.get("url"));
         SkillMainPage skillMainPage = new SkillMainPage(context);
-
         skillMainPage.login("admin", "wrongpass123");
 
-        // Используем CSS-селектор для получения текста ошибки
         WebElement errorToast = context.wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.cssSelector("li[role='status'][data-state='open']")
         ));
 
         String errorToastText = errorToast.getText();
 
-        // Проверяем, что текст ошибки содержит нужные значения
         assertTrue(errorToastText.contains("Ошибка входа"), "Не найден заголовок ошибки");
         assertTrue(errorToastText.contains("401"), "Код ошибки не отображается");
         assertTrue(errorToastText.contains("Invalid credentials"), "Текст 'Invalid credentials' не найден");
@@ -62,9 +66,7 @@ public class SkillUserLoginTest extends TestBase {
     @Severity(SeverityLevel.NORMAL)
     @DisplayName("Пустой логин — появляется сообщение 'Имя пользователя обязательно'")
     public void loginWithEmptyUsername() {
-        context.driver.get(ConfigurationReader.get("url"));
         SkillMainPage skillMainPage = new SkillMainPage(context);
-
         skillMainPage.login("", "admin123");
 
         WebElement usernameError = context.wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -80,9 +82,7 @@ public class SkillUserLoginTest extends TestBase {
     @Severity(SeverityLevel.NORMAL)
     @DisplayName("Пустой пароль — появляется сообщение 'Пароль обязателен'")
     public void loginWithEmptyPassword() {
-        context.driver.get(ConfigurationReader.get("url"));
         SkillMainPage skillMainPage = new SkillMainPage(context);
-
         skillMainPage.login("admin", "");
 
         WebElement passwordError = context.wait.until(ExpectedConditions.visibilityOfElementLocated(
