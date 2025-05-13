@@ -68,4 +68,3 @@ public class SkillDashboardTest extends TestBase {
                 "Toast с ошибкой должен быть показан при попытке добавить кандидата с дубликатом email");
     }
 }
-//

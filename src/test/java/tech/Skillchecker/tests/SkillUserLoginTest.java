@@ -101,4 +101,3 @@ public class SkillUserLoginTest extends TestBase {
                 "Ожидался текст 'Пароль обязателен', но был: " + passwordError.getText().trim());
     }
 }
-//
