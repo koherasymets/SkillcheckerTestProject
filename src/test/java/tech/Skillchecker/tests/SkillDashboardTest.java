@@ -2,7 +2,6 @@ package tech.Skillchecker.tests;
 
 import tech.Skillchecker.pages.DashboardPage;
 import tech.Skillchecker.pages.SkillMainPage;
-import tech.Skillchecker.utils.ConfigurationReader;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,9 +16,9 @@ public class SkillDashboardTest extends TestBase {
 
     @BeforeEach
     public void loginAndOpenDashboard() {
-        context.driver.get(ConfigurationReader.get("url"));
+        // URL уже открыт в TestBase
         SkillMainPage skillMainPage = new SkillMainPage(context);
-        skillMainPage.login(); // логин с валидными данными
+        skillMainPage.login(); // логинимся
     }
 
     @Test

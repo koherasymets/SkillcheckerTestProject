@@ -2,9 +2,7 @@ package tech.Skillchecker.tests;
 
 import tech.Skillchecker.pages.DashboardPage;
 import tech.Skillchecker.pages.SkillMainPage;
-import tech.Skillchecker.utils.ConfigurationReader;
 import io.qameta.allure.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -17,11 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Логин")
 @Owner("Kostiantyn Herasymets")
 public class SkillUserLoginTest extends TestBase {
-
-    @BeforeEach
-    public void openLoginPage() {
-        context.driver.get(ConfigurationReader.get("url"));
-    }
 
     @Test
     @Story("Успешный вход с валидными данными")
